@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 <span class="fc" id="L21">@Slf4j</span>
 @RestController
-@RequestMapping(&quot;/v1&quot;)
+@RequestMapping(&quot;/auth&quot;)
 <span class="fc" id="L24">public class AuthenticationController {</span>
 	
 	@Autowired
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 	@Autowired
 	private TokenService tokenService;
 	
-	@PostMapping(value = &quot;/auth&quot;)
+	@PostMapping
 	public ResponseEntity&lt;TokenDTO&gt; authenticate(@Valid @RequestBody LoginUserDTO request) {
 		
 <span class="nc" id="L35">		log.debug(&quot;AuthenticationController.authenticate - Start - Request:  [{}]&quot;, request);</span>

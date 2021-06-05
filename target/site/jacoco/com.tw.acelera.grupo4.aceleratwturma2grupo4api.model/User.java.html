@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-<span class="nc bnc" id="L27" title="All 62 branches missed.">@Data</span>
+<span class="pc bnc" id="L27" title="All 62 branches missed.">@Data</span>
 <span class="fc" id="L28">@NoArgsConstructor</span>
 <span class="nc" id="L29">@AllArgsConstructor</span>
 @Entity
@@ -35,23 +35,23 @@ public class User implements UserDetails {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+<span class="nc" id="L38">    private Long id;</span>
 	
-    private String name;
+<span class="nc" id="L40">    private String name;</span>
 	
-    private String email;
+<span class="fc" id="L42">    private String email;</span>
     
-    private String password;
+<span class="nc" id="L44">    private String password;</span>
     
-    @ManyToMany(fetch = FetchType.EAGER)
-<span class="pc" id="L47">    private List&lt;Profile&gt; profiles = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L46">    @ManyToMany(fetch = FetchType.EAGER)</span>
+<span class="nc" id="L47">    private List&lt;Profile&gt; profiles = new ArrayList&lt;&gt;();</span>
     
     @CreatedDate
     @Column(updatable = false)
-	private LocalDateTime created;
+<span class="nc" id="L51">	private LocalDateTime created;</span>
 		
     @LastModifiedDate
-	private LocalDateTime updated;
+<span class="nc" id="L54">	private LocalDateTime updated;</span>
 
 	@Override
 	public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {

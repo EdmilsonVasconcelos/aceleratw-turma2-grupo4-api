@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorValidationHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aceleratw-turma2-grupo4-api</a> &gt; <a href="index.source.html" class="el_package">com.tw.acelera.grupo4.aceleratwturma2grupo4api.validation</a> &gt; <span class="el_source">ErrorValidationHandler.java</span></div><h1>ErrorValidationHandler.java</h1><pre class="source lang-java linenums">package com.tw.acelera.grupo4.aceleratwturma2grupo4api.validation;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,11 @@ import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.exception.ExceptionRes
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.BrandExistsException;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.BrandNotExistsException;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.UserExistException;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.UserNotExistException;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.VehicleNotExistException;
 
 @RestControllerAdvice
-<span class="fc" id="L23">public class ErrorValidationHandler {</span>
+<span class="fc" id="L26">public class ErrorValidationHandler {</span>
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -28,42 +31,53 @@ import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.UserExistExcepti
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public List&lt;ErrorValidationDTO&gt; handle(MethodArgumentNotValidException exception) {
+<span class="nc" id="L34">		List&lt;ErrorValidationDTO&gt; errors = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L35">		List&lt;FieldError&gt; fieldErrors = exception.getBindingResult().getFieldErrors();</span>
 		
-<span class="nc" id="L32">		List&lt;ErrorValidationDTO&gt; errors = new ArrayList&lt;&gt;();</span>
-		
-<span class="nc" id="L34">		List&lt;FieldError&gt; fieldErrors = exception.getBindingResult().getFieldErrors();</span>
-		
-<span class="nc" id="L36">		fieldErrors.forEach(e -&gt; {</span>
-			
+<span class="nc" id="L37">		fieldErrors.forEach(e -&gt; {</span>
 <span class="nc" id="L38">			String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());</span>
-			
-<span class="nc" id="L40">			ErrorValidationDTO error = new ErrorValidationDTO(e.getField(), message);</span>
-			
-<span class="nc" id="L42">			errors.add(error);</span>
-			
-<span class="nc" id="L44">		});</span>
+<span class="nc" id="L39">			ErrorValidationDTO error = new ErrorValidationDTO(e.getField(), message);</span>
+<span class="nc" id="L40">			errors.add(error);</span>
+<span class="nc" id="L41">		});</span>
 		
-<span class="nc" id="L46">		return errors;</span>
-		
+<span class="nc" id="L43">		return errors;</span>
 	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(UserExistException.class)
 	public ExceptionResponse handle(UserExistException exception) {
-<span class="nc" id="L53">		return new ExceptionResponse(exception.getMessage());</span>
+<span class="nc" id="L49">		return new ExceptionResponse(exception.getMessage());</span>
+	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(UserNotExistException.class)
+	public ExceptionResponse handle(UserNotExistException exception) {
+<span class="nc" id="L55">		return new ExceptionResponse(exception.getMessage());</span>
 	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BrandExistsException.class)
 	public ExceptionResponse handle(BrandExistsException exception) {
-<span class="nc" id="L59">		return new ExceptionResponse(exception.getMessage());</span>
+<span class="nc" id="L61">		return new ExceptionResponse(exception.getMessage());</span>
 	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BrandNotExistsException.class)
 	public ExceptionResponse handle(BrandNotExistsException exception) {
-<span class="nc" id="L65">		return new ExceptionResponse(exception.getMessage());</span>
+<span class="nc" id="L67">		return new ExceptionResponse(exception.getMessage());</span>
 	}
-
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(VehicleNotExistException.class)
+	public ExceptionResponse handle(VehicleNotExistException exception) {
+<span class="nc" id="L73">		return new ExceptionResponse(exception.getMessage());</span>
+	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	public ExceptionResponse handle(SQLIntegrityConstraintViolationException exception) {
+<span class="nc" id="L79">		return new ExceptionResponse(exception.getMessage());</span>
+	}
+	
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

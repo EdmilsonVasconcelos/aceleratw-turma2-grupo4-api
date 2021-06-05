@@ -2,15 +2,20 @@
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableJpaAuditing
-<span class="fc" id="L9">public class AceleratwTurma2Grupo4ApiApplication {</span>
+@EnableCaching
+@EnableSwagger2
+<span class="fc" id="L14">public class AceleratwTurma2Grupo4ApiApplication {</span>
 
 	public static void main(String[] args) {
-<span class="nc" id="L12">		SpringApplication.run(AceleratwTurma2Grupo4ApiApplication.class, args);</span>
-<span class="nc" id="L13">	}</span>
+<span class="nc" id="L17">		SpringApplication.run(AceleratwTurma2Grupo4ApiApplication.class, args);</span>
+<span class="nc" id="L18">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

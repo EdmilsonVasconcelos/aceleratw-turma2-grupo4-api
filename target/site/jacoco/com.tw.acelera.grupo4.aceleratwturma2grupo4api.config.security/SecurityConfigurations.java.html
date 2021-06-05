@@ -35,31 +35,30 @@ import com.tw.acelera.grupo4.aceleratwturma2grupo4api.repository.UserRepository;
 <span class="fc" id="L35">		return super.authenticationManager();</span>
 	}
 	
-	//authentication
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-<span class="fc" id="L42">		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());</span>
-		
-<span class="fc" id="L44">	}</span>
+<span class="fc" id="L40">		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());</span>
+<span class="fc" id="L41">	}</span>
 	
-	//authorization
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-<span class="fc" id="L49">		http.authorizeRequests()</span>
-<span class="fc" id="L50">			.antMatchers(HttpMethod.POST, &quot;/v1/auth&quot;).permitAll()</span>
-<span class="fc" id="L51">			.antMatchers(HttpMethod.POST, &quot;/v1/user&quot;).permitAll()</span>
-<span class="fc" id="L52">			.anyRequest().authenticated()</span>
+<span class="fc" id="L45">		http.authorizeRequests()</span>
+<span class="fc" id="L46">			.antMatchers(HttpMethod.POST, &quot;/auth&quot;).permitAll()</span>
+<span class="fc" id="L47">			.antMatchers(HttpMethod.POST, &quot;/user&quot;).permitAll()</span>
+<span class="fc" id="L48">			.antMatchers(HttpMethod.PUT, &quot;/user/change-password&quot;).permitAll()</span>
+<span class="fc" id="L49">			.antMatchers(HttpMethod.GET, &quot;/vehicle&quot;).permitAll()</span>
+<span class="fc" id="L50">			.antMatchers(HttpMethod.GET, &quot;/actuator/**&quot;).permitAll()</span>
+<span class="fc" id="L51">			.anyRequest().authenticated()</span>
+<span class="fc" id="L52">			.and().cors()</span>
 <span class="fc" id="L53">			.and().csrf().disable()</span>
 <span class="fc" id="L54">			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span>
 <span class="fc" id="L55">			.and().addFilterBefore(new AuthenticationTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);</span>
 <span class="fc" id="L56">	}</span>
 	
-	//statics resources
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-<span class="fc" id="L61">		super.configure(web);</span>
-<span class="fc" id="L62">	}</span>
+<span class="fc" id="L60">		web.ignoring().antMatchers(&quot;/**.html&quot;, &quot;/v2/api-docs&quot;, &quot;/webjars/**&quot;, &quot;/configuration/**&quot;, &quot;/swagger-resources/**&quot;);</span>
+<span class="fc" id="L61">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

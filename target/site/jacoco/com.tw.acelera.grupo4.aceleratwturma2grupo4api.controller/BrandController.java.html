@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,72 +20,103 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.request.BrandRequestDTO;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.response.BrandReporterResponseDTO;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.response.BrandResponseDTO;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.service.BrandService;
 
 import lombok.extern.slf4j.Slf4j;
 
-<span class="fc" id="L26">@Slf4j</span>
-@RequestMapping(&quot;/v1&quot;)
+<span class="fc" id="L29">@Slf4j</span>
+@RequestMapping(&quot;/brand&quot;)
 @RestController
-<span class="fc" id="L29">public class BrandController {</span>
+<span class="fc" id="L32">public class BrandController {</span>
 	
 	@Autowired
 	private BrandService brandService;
 	
-	@GetMapping(value = &quot;/brand&quot;)
+	@GetMapping
+	@Cacheable(value = &quot;listBrands&quot;)
 	public ResponseEntity&lt;List&lt;BrandResponseDTO&gt;&gt; getBrands() {
 		
-<span class="fc" id="L37">		log.debug(&quot;BrandController.getBrands - Start&quot;);</span>
+<span class="fc" id="L41">		log.debug(&quot;BrandController.getBrands - Start&quot;);</span>
 		
-<span class="fc" id="L39">		List&lt;BrandResponseDTO&gt; response = brandService.getAllBrands();</span>
+<span class="fc" id="L43">		List&lt;BrandResponseDTO&gt; response = brandService.getAllBrands();</span>
 		
-<span class="fc" id="L41">		log.debug(&quot;UserController.getBrands - Finish, Response:  [{}]&quot;, response);</span>
+<span class="fc" id="L45">		log.debug(&quot;BrandController.getBrands - Finish, Response:  [{}]&quot;, response);</span>
 		
-<span class="fc" id="L43">		return ResponseEntity.ok(response);</span>
+<span class="fc" id="L47">		return ResponseEntity.ok(response);</span>
 	}
 	
-	@PostMapping(value = &quot;/brand&quot;)
+	@GetMapping(value = &quot;/report&quot;)
+	public ResponseEntity&lt;List&lt;BrandReporterResponseDTO&gt;&gt; getInformationsByBrand() {
+		
+<span class="nc" id="L53">		log.debug(&quot;BrandController.getInformationsByBrand - Start&quot;);</span>
+		
+<span class="nc" id="L55">		List&lt;BrandReporterResponseDTO&gt; response = brandService.getInformationsByBrand();</span>
+		
+<span class="nc" id="L57">		log.debug(&quot;BrandController.getInformationsByBrand - Finish, Response:  [{}]&quot;, response);</span>
+		
+<span class="nc" id="L59">		return ResponseEntity.ok(response);</span>
+	}
+	
+	@GetMapping(value = &quot;/find&quot;)
+	@Cacheable(value = &quot;findById&quot;)
+	public ResponseEntity&lt;BrandResponseDTO&gt;  getBrandById(@RequestParam Long idBrand) {
+		
+<span class="nc" id="L66">		log.debug(&quot;BrandController.getBrandById - Start - idBrand: []&quot;, idBrand);</span>
+		
+<span class="nc" id="L68">		BrandResponseDTO response = brandService.getBrandById(idBrand);</span>
+		
+<span class="nc" id="L70">		log.debug(&quot;BrandController.getBrandById - Start - idBrand: [], response: []&quot;, idBrand, response);</span>
+		
+<span class="nc" id="L72">		return ResponseEntity.ok(response);</span>
+		
+	}
+	
+	@PostMapping
+	@CacheEvict(value = {&quot;listBrands&quot;, &quot;reports&quot;, &quot;findById&quot;}, allEntries = true)
 	public ResponseEntity&lt;BrandResponseDTO&gt; saveBrand(@Valid @RequestBody BrandRequestDTO request) {
 		
-<span class="fc" id="L49">		log.debug(&quot;BrandController.saveBrand - Start - Request:  [{}]&quot;, request);</span>
+<span class="fc" id="L80">		log.debug(&quot;BrandController.saveBrand - Start - Request:  [{}]&quot;, request);</span>
 		
-<span class="fc" id="L51">		BrandResponseDTO brandSaved = brandService.saveBrand(request);</span>
+<span class="fc" id="L82">		BrandResponseDTO brandSaved = brandService.saveBrand(request);</span>
 		
-<span class="fc" id="L53">		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(&quot;/{id}&quot;).buildAndExpand(brandSaved.getId())</span>
-<span class="fc" id="L54">				.toUri();</span>
+<span class="fc" id="L84">		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(&quot;/{id}&quot;).buildAndExpand(brandSaved.getId())</span>
+<span class="fc" id="L85">				.toUri();</span>
 		
-<span class="fc" id="L56">		ResponseEntity&lt;BrandResponseDTO&gt; response = ResponseEntity.created(uri).body(brandSaved);</span>
+<span class="fc" id="L87">		ResponseEntity&lt;BrandResponseDTO&gt; response = ResponseEntity.created(uri).body(brandSaved);</span>
 		
-<span class="fc" id="L58">		log.debug(&quot;UserController.saveUser - Finish - Request:  [{}], Response:  [{}]&quot;, request, response);</span>
+<span class="fc" id="L89">		log.debug(&quot;BrandController.saveUser - Finish - Request:  [{}], Response:  [{}]&quot;, request, response);</span>
 		
-<span class="fc" id="L60">		return response;</span>
+<span class="fc" id="L91">		return response;</span>
 	}
 	
-	@PutMapping(value = &quot;/brand&quot;)
+	@PutMapping
+	@CacheEvict(value = {&quot;listBrands&quot;, &quot;reports&quot;, &quot;findById&quot;}, allEntries = true)
 	public ResponseEntity&lt;BrandResponseDTO&gt; updateBrand(@RequestParam Long idBrand, @Valid @RequestBody BrandRequestDTO request) {
 		
-<span class="fc" id="L66">		log.debug(&quot;BrandController.updateBrand - Start - idBrand,: [], Request: [{}]&quot;, idBrand, request);</span>
+<span class="fc" id="L98">		log.debug(&quot;BrandController.updateBrand - Start - idBrand,: [], Request: [{}]&quot;, idBrand, request);</span>
 		
-<span class="fc" id="L68">		BrandResponseDTO brandUpdated = brandService.updateBrand(idBrand, request);</span>
+<span class="fc" id="L100">		BrandResponseDTO brandUpdated = brandService.updateBrand(idBrand, request);</span>
 		
-<span class="fc" id="L70">		ResponseEntity&lt;BrandResponseDTO&gt; response = ResponseEntity.ok(brandUpdated);</span>
+<span class="fc" id="L102">		ResponseEntity&lt;BrandResponseDTO&gt; response = ResponseEntity.ok(brandUpdated);</span>
 		
-<span class="fc" id="L72">		log.debug(&quot;UserController.updateBrand - Finish - id; [], Request:  [{}], Response:  [{}]&quot;, idBrand, request, response);</span>
+<span class="fc" id="L104">		log.debug(&quot;UserController.updateBrand - Finish - id; [], Request:  [{}], Response:  [{}]&quot;, idBrand, request, response);</span>
 		
-<span class="fc" id="L74">		return response;</span>
+<span class="fc" id="L106">		return response;</span>
 	}
 	
-	@DeleteMapping(value = &quot;/brand&quot;)
+	@DeleteMapping
+	@CacheEvict(value = {&quot;listBrands&quot;, &quot;reports&quot;, &quot;findById&quot;}, allEntries = true)
 	public ResponseEntity&lt;BrandResponseDTO&gt; deleteBrand(@RequestParam Long idBrand) {
 		
-<span class="fc" id="L80">		log.debug(&quot;BrandController.deleteBrand - Start - idBrand: []&quot;, idBrand);</span>
+<span class="fc" id="L113">		log.debug(&quot;BrandController.deleteBrand - Start - idBrand: []&quot;, idBrand);</span>
 		
-<span class="fc" id="L82">		brandService.deleteBrand(idBrand);</span>
+<span class="fc" id="L115">		brandService.deleteBrand(idBrand);</span>
 		
-<span class="fc" id="L84">		log.debug(&quot;UserController.deleteBrand - Finish - idBrand: []&quot;, idBrand);</span>
+<span class="fc" id="L117">		log.debug(&quot;BrandController.deleteBrand - Finish - idBrand: []&quot;, idBrand);</span>
 		
-<span class="fc" id="L86">		return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L119">		return ResponseEntity.noContent().build();</span>
 	}
 
 }

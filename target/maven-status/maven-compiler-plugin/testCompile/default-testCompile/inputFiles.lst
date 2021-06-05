@@ -1,3 +1,11 @@
-/Users/edmilsonvasconcelosjunior/Documents/TW/eclipse-workspace/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/controller/BrandControllerTest.java
-/Users/edmilsonvasconcelosjunior/Documents/TW/eclipse-workspace/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/service/BrandServiceTest.java
-/Users/edmilsonvasconcelosjunior/Documents/TW/eclipse-workspace/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/AceleratwTurma2Grupo4ApiApplicationTests.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/repository/UserRepositoryTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/controller/UserControllerTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/utils/ConverterToJson.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/controller/AuthenticationControllerTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/AceleratwTurma2Grupo4ApiApplicationTests.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/controller/VehicleControllerTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/service/VehicleServiceTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/repository/BrandRepositoryTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/repository/VehicleRepositoryTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/controller/BrandControllerTest.java
+/Users/edmilsonvasconcelosjunior/Documents/TW/back/aceleratw-turma2-grupo4-api/src/test/java/com/tw/acelera/grupo4/aceleratwturma2grupo4api/service/BrandServiceTest.java

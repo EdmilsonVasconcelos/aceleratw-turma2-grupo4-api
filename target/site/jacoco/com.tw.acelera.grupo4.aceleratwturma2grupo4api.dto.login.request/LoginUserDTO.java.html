@@ -12,11 +12,11 @@ public class LoginUserDTO {
 	
 	@NotNull(message = &quot;The email of user is mandatory&quot;)
 	@Size(message = &quot;The email of user must be between two and fifty characters&quot;, min = 2, max = 50)
-	private String email;
+<span class="nc" id="L15">	private String email;</span>
 	
 	@NotNull(message = &quot;The password of user is mandatory&quot;)
 	@Size(message = &quot;The password of user must be between two and fifty characters&quot;, min = 2, max = 1000)
-	private String password;
+<span class="nc" id="L19">	private String password;</span>
 	
 	public UsernamePasswordAuthenticationToken converter() {
 <span class="nc" id="L22">		return new UsernamePasswordAuthenticationToken(email, password);</span>

@@ -19,23 +19,23 @@ import lombok.NoArgsConstructor;
 
 <span class="pc bnc" id="L20" title="All 38 branches missed.">@Data</span>
 <span class="fc" id="L21">@NoArgsConstructor</span>
-<span class="nc" id="L22">@AllArgsConstructor</span>
+<span class="fc" id="L22">@AllArgsConstructor</span>
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Brand {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+<span class="fc" id="L29">    private Long id;</span>
 	
-    private String name;
+<span class="fc" id="L31">    private String name;</span>
     
     @CreatedDate
     @Column(updatable = false)
-	private LocalDateTime created;
+<span class="fc" id="L35">	private LocalDateTime created;</span>
 		
     @LastModifiedDate
-	private LocalDateTime updated;
+<span class="fc" id="L38">	private LocalDateTime updated;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BrandService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aceleratw-turma2-grupo4-api</a> &gt; <a href="index.source.html" class="el_package">com.tw.acelera.grupo4.aceleratwturma2grupo4api.service</a> &gt; <span class="el_source">BrandService.java</span></div><h1>BrandService.java</h1><pre class="source lang-java linenums">package com.tw.acelera.grupo4.aceleratwturma2grupo4api.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,129 +10,218 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.request.BrandRequestDTO;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.response.BrandReporterResponseDTO;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.response.BrandResponseDTO;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.vehicle.response.TotalInformationsVehiclesResponseDTO;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.BrandExistsException;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.exception.BrandNotExistsException;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.model.Brand;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.model.Vehicle;
 import com.tw.acelera.grupo4.aceleratwturma2grupo4api.repository.BrandRepository;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.repository.VehicleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-<span class="fc" id="L20">@Slf4j</span>
+<span class="fc" id="L25">@Slf4j</span>
 @Service
-<span class="fc" id="L22">public class BrandService {</span>
+<span class="fc" id="L27">public class BrandService {</span>
 	
 	private static final String BRAND_WITH_NAME_EXISTS = &quot;Brand with name %s exists.&quot;;
 	
-<span class="fc" id="L26">	private static final String BRAND_WITH_ID_NOT_EXISTS = &quot;Brand with id %s not exists.&quot;;</span>
-	
+	private static final String BRAND_WITH_ID_NOT_EXISTS = &quot;Brand with id %s not exists.&quot;;
+		
 	@Autowired
 	private ModelMapper mapper;
 	
 	@Autowired
 	private BrandRepository brandRepository;
 	
-
+	@Autowired
+	private VehicleRepository vehicleRepository;
+	
 	public List&lt;BrandResponseDTO&gt; getAllBrands() {
 		
-<span class="nc" id="L37">		log.debug(&quot;BrandService.saveBrand - Start&quot;);</span>
+<span class="fc" id="L44">		log.debug(&quot;BrandService.saveBrand - Start&quot;);</span>
 		
-<span class="nc" id="L39">		List&lt;Brand&gt; brands = brandRepository.findAll();</span>
+<span class="fc" id="L46">		List&lt;Brand&gt; brands = brandRepository.findAll();</span>
 		
-<span class="nc" id="L41">		List&lt;BrandResponseDTO&gt; response = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L48">		List&lt;BrandResponseDTO&gt; response = new ArrayList&lt;&gt;();</span>
 		
-<span class="nc" id="L43">		brands.forEach(brand -&gt; {</span>
-<span class="nc" id="L44">			BrandResponseDTO brandResponseDTO = mapper.map(brand, BrandResponseDTO.class);</span>
-<span class="nc" id="L45">			response.add(brandResponseDTO);</span>
-<span class="nc" id="L46">		});</span>
+<span class="fc" id="L50">		brands.forEach(brand -&gt; {</span>
+<span class="fc" id="L51">			BrandResponseDTO brandResponseDTO = mapper.map(brand, BrandResponseDTO.class);</span>
+<span class="fc" id="L52">			response.add(brandResponseDTO);</span>
+<span class="fc" id="L53">		});</span>
 		
-<span class="nc" id="L48">		log.debug(&quot;BrandService.saveBrand - Finish&quot;);</span>
+<span class="fc" id="L55">		log.debug(&quot;BrandService.saveBrand - Finish&quot;);</span>
 		
-<span class="nc" id="L50">		return response;</span>
+<span class="fc" id="L57">		return response;</span>
+	}
+	
+	public BrandResponseDTO getBrandById(Long idBrand) {
+		
+<span class="nc" id="L62">		log.debug(&quot;BrandService.getBrandById - Start - idBrand: []&quot;, idBrand);</span>
+		
+<span class="nc" id="L64">		Brand brand = brandRepository.findById(idBrand)</span>
+<span class="nc" id="L65">				.orElseThrow(() -&gt; new BrandNotExistsException(String.format(BRAND_WITH_ID_NOT_EXISTS, idBrand)));</span>
+		
+<span class="nc" id="L67">		BrandResponseDTO response = mapper.map(brand, BrandResponseDTO.class);</span>
+		
+<span class="nc" id="L69">		log.debug(&quot;BrandService.getBrandById - Start - idBrand: [], response: []&quot;, idBrand, response);</span>
+		
+<span class="nc" id="L71">		return response;</span>
+		
 	}
 	
 	public BrandResponseDTO saveBrand(BrandRequestDTO request) {
 		
-<span class="fc" id="L55">		log.debug(&quot;BrandService.saveBrand - Start - Request:  [{}]&quot;, request);</span>
+<span class="fc" id="L77">		log.debug(&quot;BrandService.saveBrand - Start - Request:  [{}]&quot;, request);</span>
 		
-<span class="fc" id="L57">		checkIfExistBrandByName(request.getName());</span>
+<span class="fc" id="L79">		checkIfExistBrandByName(request.getName());</span>
 		
-<span class="fc" id="L59">		Brand brandToSave = mapper.map(request, Brand.class);</span>
-		
-<span class="fc" id="L61">		Brand brandSaved = brandRepository.save(brandToSave);</span>
-		
-<span class="fc" id="L63">		BrandResponseDTO response = mapper.map(brandSaved, BrandResponseDTO.class);</span>
-		
-<span class="fc" id="L65">		log.debug(&quot;BrandService.saveBrand - Finish - Request:  [{}], Response:  [{}]&quot;, request, response);</span>
-		
-<span class="fc" id="L67">		return response;</span>
-		
-	}
-	
-	public BrandResponseDTO updateBrand(Long idBrand, BrandRequestDTO request) {
-		
-<span class="fc" id="L73">		log.debug(&quot;BrandService.updateBrand - Start - idBrand: [], Request: [{}]&quot;, idBrand, request);</span>
-		
-<span class="fc" id="L75">		checkIfExistBrandById(idBrand);</span>
-		
-<span class="fc" id="L77">		checkIfExistBrandByName(request.getName());</span>
-		
-<span class="fc" id="L79">		Brand brandToSave = mapper.map(request, Brand.class);</span>
-		
-<span class="fc" id="L81">		brandToSave.setId(idBrand);</span>
+<span class="fc" id="L81">		Brand brandToSave = mapper.map(request, Brand.class);</span>
 		
 <span class="fc" id="L83">		Brand brandSaved = brandRepository.save(brandToSave);</span>
 		
 <span class="fc" id="L85">		BrandResponseDTO response = mapper.map(brandSaved, BrandResponseDTO.class);</span>
 		
-<span class="fc" id="L87">		log.debug(&quot;BrandService.updateBrand - Finish - idBrand: [], Request: [{}]&quot;, idBrand, request);</span>
+<span class="fc" id="L87">		log.debug(&quot;BrandService.saveBrand - Finish - Request:  [{}], Response:  [{}]&quot;, request, response);</span>
 		
 <span class="fc" id="L89">		return response;</span>
+		
+	}
+	
+	public BrandResponseDTO updateBrand(Long idBrand, BrandRequestDTO request) {
+		
+<span class="fc" id="L95">		log.debug(&quot;BrandService.updateBrand - Start - idBrand: [], Request: [{}]&quot;, idBrand, request);</span>
+		
+<span class="fc" id="L97">		checkIfExistBrandById(idBrand);</span>
+		
+<span class="fc" id="L99">		checkIfExistBrandByName(request.getName());</span>
+		
+<span class="fc" id="L101">		Brand brandToSave = mapper.map(request, Brand.class);</span>
+		
+<span class="fc" id="L103">		brandToSave.setId(idBrand);</span>
+		
+<span class="fc" id="L105">		Brand brandSaved = brandRepository.save(brandToSave);</span>
+		
+<span class="fc" id="L107">		BrandResponseDTO response = mapper.map(brandSaved, BrandResponseDTO.class);</span>
+		
+<span class="fc" id="L109">		log.debug(&quot;BrandService.updateBrand - Finish - idBrand: [], Request: [{}]&quot;, idBrand, request);</span>
+		
+<span class="fc" id="L111">		return response;</span>
 	}
 
 	public void deleteBrand(Long idBrand) {
 		
-<span class="nc" id="L94">		log.debug(&quot;BrandService.deleteBrand - Start - idBrand:  [{}]&quot;, idBrand);</span>
+<span class="nc" id="L116">		log.debug(&quot;BrandService.deleteBrand - Start - idBrand:  [{}]&quot;, idBrand);</span>
 		
-<span class="nc" id="L96">		checkIfExistBrandById(idBrand);</span>
+<span class="nc" id="L118">		checkIfExistBrandById(idBrand);</span>
 		
-<span class="nc" id="L98">		brandRepository.deleteById(idBrand);</span>
-		
-<span class="nc" id="L100">		log.debug(&quot;BrandService.deleteBrand - Finish - idBrand:  [{}]&quot;, idBrand);</span>
-<span class="nc" id="L101">	}</span>
+<span class="nc" id="L120">		brandRepository.deleteById(idBrand);</span>
+
+<span class="nc" id="L122">		log.debug(&quot;BrandService.deleteBrand - Finish - idBrand:  [{}]&quot;, idBrand);</span>
+<span class="nc" id="L123">	}</span>
 	
+
+	public List&lt;BrandReporterResponseDTO&gt; getInformationsByBrand() {
+		
+<span class="nc" id="L128">		log.debug(&quot;BrandService.getInformationsByBrand - Start&quot;);</span>
+		
+<span class="nc" id="L130">		List&lt;Brand&gt; brands = brandRepository.findAll();</span>
+		
+<span class="nc" id="L132">		List&lt;BrandReporterResponseDTO&gt; response = getBrandReporterResponse(brands);</span>
+		
+<span class="nc" id="L134">		log.debug(&quot;BrandService.getInformationsByBrand - Finish&quot;);</span>
+		
+<span class="nc" id="L136">		return response;</span>
+	}
+	
+	private List&lt;BrandReporterResponseDTO&gt; getBrandReporterResponse(List&lt;Brand&gt; brands) {
+		
+<span class="nc" id="L141">		log.debug(&quot;BrandService.getBrandReporterResponse - Start - Request: [{}]&quot;, brands);</span>
+		
+<span class="nc" id="L143">		BigDecimal totalValue = new BigDecimal(0);</span>
+		
+<span class="nc" id="L145">		int totalVehicles = 0;</span>
+		
+<span class="nc" id="L147">		List&lt;BrandReporterResponseDTO&gt; response = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L149" title="All 2 branches missed.">		for (Brand brandSaved : brands) {</span>
+			
+<span class="nc" id="L151">			BrandReporterResponseDTO brandReporterResponse = new BrandReporterResponseDTO();</span>
+			
+<span class="nc" id="L153">			TotalInformationsVehiclesResponseDTO totalInformationsVehiclesResponse = new TotalInformationsVehiclesResponseDTO();</span>
+			
+<span class="nc" id="L155">			totalInformationsVehiclesResponse.setTotalValue(new BigDecimal(0));</span>
+			
+<span class="nc" id="L157">			totalInformationsVehiclesResponse.setTotalVehicles(totalVehicles);</span>
+			
+<span class="nc" id="L159">			brandReporterResponse.setName(brandSaved.getName());</span>
+			
+<span class="nc" id="L161">			List&lt;Vehicle&gt; vehicles = vehicleRepository.findByBrand_id(brandSaved.getId());</span>
+			
+<span class="nc" id="L163">			System.out.println(vehicles);</span>
+			
+<span class="nc bnc" id="L165" title="All 2 branches missed.">			for (Vehicle vehicle : vehicles) {</span>
+				
+<span class="nc" id="L167">				totalVehicles += 1;</span>
+				
+<span class="nc" id="L169">				totalValue = totalValue.add(vehicle.getValue());</span>
+				
+<span class="nc" id="L171">				totalInformationsVehiclesResponse.setTotalValue(totalValue);</span>
+				
+<span class="nc" id="L173">				totalInformationsVehiclesResponse.setTotalVehicles(totalVehicles);</span>
+				
+
+<span class="nc" id="L176">			}</span>
+			
+<span class="nc" id="L178">			totalValue = new BigDecimal(0);</span>
+			
+<span class="nc" id="L180">			totalVehicles = 0;</span>
+			
+<span class="nc" id="L182">			brandReporterResponse.setInformationsCars(totalInformationsVehiclesResponse);</span>
+			
+<span class="nc" id="L184">			response.add(brandReporterResponse);</span>
+			
+<span class="nc" id="L186">		}</span>
+		
+<span class="nc" id="L188">		log.debug(&quot;BrandService.getBrandReporterResponse - Finish - Request: [{}], Response: [{}]&quot;, brands, response);</span>
+		
+<span class="nc" id="L190">		return response;</span>
+		
+	}
 	
 	private void checkIfExistBrandById(Long idBrand) {
 		
-<span class="fc" id="L106">		log.debug(&quot;BrandService.checkIfExistBrandById - Start - idBrand: [{}]&quot;, idBrand);</span>
+<span class="fc" id="L196">		log.debug(&quot;BrandService.checkIfExistBrandById - Start - idBrand: [{}]&quot;, idBrand);</span>
 		
-<span class="fc" id="L108">		Optional&lt;Brand&gt; brand = brandRepository.findById(idBrand);</span>
+<span class="fc" id="L198">		Optional&lt;Brand&gt; brand = brandRepository.findById(idBrand);</span>
 		
-<span class="pc bpc" id="L110" title="1 of 2 branches missed.">		if(!brand.isPresent()) {</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">		if(!brand.isPresent()) {</span>
 			
-<span class="nc" id="L112">			throw new BrandNotExistsException(String.format(BRAND_WITH_ID_NOT_EXISTS, idBrand));</span>
+<span class="nc" id="L202">			throw new BrandNotExistsException(String.format(BRAND_WITH_ID_NOT_EXISTS, idBrand));</span>
 			
 		}
 		
-<span class="fc" id="L116">		log.debug(&quot;BrandService.checkIfExistBrandById - Finish: idBrand: [{}]&quot;, idBrand);</span>
+<span class="fc" id="L206">		log.debug(&quot;BrandService.checkIfExistBrandById - Finish: idBrand: [{}]&quot;, idBrand);</span>
 		
-<span class="fc" id="L118">	}</span>
+<span class="fc" id="L208">	}</span>
 	
 	private void checkIfExistBrandByName(String name) {
 		
-<span class="fc" id="L122">		log.debug(&quot;BrandService.checkIfExistBrandByName - Start - Brand:  [{}]&quot;, name);</span>
+<span class="fc" id="L212">		log.debug(&quot;BrandService.checkIfExistBrandByName - Start - Brand:  [{}]&quot;, name);</span>
 		
-<span class="fc" id="L124">		Optional&lt;Brand&gt; brand = brandRepository.findByName(name);</span>
+<span class="fc" id="L214">		Optional&lt;Brand&gt; brand = brandRepository.findByName(name);</span>
 		
-<span class="pc bpc" id="L126" title="1 of 2 branches missed.">		if(brand.isPresent()) {</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">		if(brand.isPresent()) {</span>
 			
-<span class="nc" id="L128">			throw new BrandExistsException(String.format(BRAND_WITH_NAME_EXISTS, name));</span>
+<span class="nc" id="L218">			throw new BrandExistsException(String.format(BRAND_WITH_NAME_EXISTS, name));</span>
 			
 		}
 		
-<span class="fc" id="L132">		log.debug(&quot;BrandService.checkIfExistBrandByName - Finish:  [{}]&quot;, name);</span>
+<span class="fc" id="L222">		log.debug(&quot;BrandService.checkIfExistBrandByName - Finish:  [{}]&quot;, name);</span>
 		
-<span class="fc" id="L134">	}</span>
+<span class="fc" id="L224">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

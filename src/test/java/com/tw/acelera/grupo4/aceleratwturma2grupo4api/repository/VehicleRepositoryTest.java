@@ -28,8 +28,7 @@ public class VehicleRepositoryTest {
 		List<Vehicle> listVehicles = repository.findByBrand_id(1L);
 		
 		Assert.assertNotNull(listVehicles);
-		Assert.assertTrue(!listVehicles.isEmpty());
-
 	}
 	
 }
+
