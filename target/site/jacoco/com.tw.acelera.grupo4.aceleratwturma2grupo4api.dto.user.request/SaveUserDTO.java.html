@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveUserDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aceleratw-turma2-grupo4-api</a> &gt; <a href="index.source.html" class="el_package">com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.user.request</a> &gt; <span class="el_source">SaveUserDTO.java</span></div><h1>SaveUserDTO.java</h1><pre class="source lang-java linenums">package com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.user.request;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+<span class="nc bnc" id="L11" title="All 30 branches missed.">@Data</span>
+<span class="nc" id="L12">@Builder</span>
+<span class="nc" id="L13">@AllArgsConstructor</span>
+<span class="nc" id="L14">@NoArgsConstructor</span>
+public class SaveUserDTO {
+	
+	@NotNull(message = &quot;The name of user is mandatory&quot;)
+	@Size(message = &quot;The name of user must be between two and fifty characters&quot;, min = 2, max = 50)
+	private String name;
+	
+	@NotNull(message = &quot;The email of user is mandatory&quot;)
+	@Size(message = &quot;The email of user must be between two and ninety characters&quot;, min = 2, max = 90)
+	private String email;
+	
+	@NotNull(message = &quot;The password of user is mandatory&quot;)
+	@Size(message = &quot;The password of user must be between two and ninety characters&quot;, min = 2, max = 90)
+	private String password;
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

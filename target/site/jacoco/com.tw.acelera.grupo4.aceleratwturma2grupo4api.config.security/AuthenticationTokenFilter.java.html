@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthenticationTokenFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aceleratw-turma2-grupo4-api</a> &gt; <a href="index.source.html" class="el_package">com.tw.acelera.grupo4.aceleratwturma2grupo4api.config.security</a> &gt; <span class="el_source">AuthenticationTokenFilter.java</span></div><h1>AuthenticationTokenFilter.java</h1><pre class="source lang-java linenums">package com.tw.acelera.grupo4.aceleratwturma2grupo4api.config.security;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.model.User;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.repository.UserRepository;
+
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
+	
+	private TokenService tokenService;
+	private UserRepository userRepository;
+
+<span class="fc" id="L22">	public AuthenticationTokenFilter(TokenService tokenService, UserRepository repository) {</span>
+<span class="fc" id="L23">		this.tokenService = tokenService;</span>
+<span class="fc" id="L24">		this.userRepository = repository;</span>
+<span class="fc" id="L25">	}</span>
+
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		
+<span class="fc" id="L31">		String token = getToken(request);</span>
+		
+<span class="fc" id="L33">		boolean valid = tokenService.isValidToken(token);</span>
+		
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (valid) {</span>
+<span class="nc" id="L36">			authenticateClient(token);</span>
+		}
+		
+<span class="fc" id="L39">		filterChain.doFilter(request, response);</span>
+<span class="fc" id="L40">	}</span>
+
+	private void authenticateClient(String token) {
+		
+<span class="nc" id="L44">		Long idUser = tokenService.getUserId(token);</span>
+		
+<span class="nc" id="L46">		User user = userRepository.findById(idUser).get();</span>
+		
+<span class="nc" id="L48">		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());</span>
+		
+<span class="nc" id="L50">		SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+		
+<span class="nc" id="L52">	}</span>
+
+	private String getToken(HttpServletRequest request) {
+<span class="fc" id="L55">		String token = request.getHeader(&quot;Authorization&quot;);</span>
+		
+<span class="pc bpc" id="L57" title="5 of 6 branches missed.">		if (token == null || token.isEmpty() || !token.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="fc" id="L58">			return null;</span>
+		}
+		
+<span class="nc" id="L61">		return token.substring(7, token.length());</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BrandController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aceleratw-turma2-grupo4-api</a> &gt; <a href="index.source.html" class="el_package">com.tw.acelera.grupo4.aceleratwturma2grupo4api.controller</a> &gt; <span class="el_source">BrandController.java</span></div><h1>BrandController.java</h1><pre class="source lang-java linenums">package com.tw.acelera.grupo4.aceleratwturma2grupo4api.controller;
+
+import java.net.URI;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.request.BrandRequestDTO;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.dto.brand.response.BrandResponseDTO;
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.service.BrandService;
+
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L26">@Slf4j</span>
+@RequestMapping(&quot;/v1&quot;)
+@RestController
+<span class="fc" id="L29">public class BrandController {</span>
+	
+	@Autowired
+	private BrandService brandService;
+	
+	@GetMapping(value = &quot;/brand&quot;)
+	public ResponseEntity&lt;List&lt;BrandResponseDTO&gt;&gt; getBrands() {
+		
+<span class="fc" id="L37">		log.debug(&quot;BrandController.getBrands - Start&quot;);</span>
+		
+<span class="fc" id="L39">		List&lt;BrandResponseDTO&gt; response = brandService.getAllBrands();</span>
+		
+<span class="fc" id="L41">		log.debug(&quot;UserController.getBrands - Finish, Response:  [{}]&quot;, response);</span>
+		
+<span class="fc" id="L43">		return ResponseEntity.ok(response);</span>
+	}
+	
+	@PostMapping(value = &quot;/brand&quot;)
+	public ResponseEntity&lt;BrandResponseDTO&gt; saveBrand(@Valid @RequestBody BrandRequestDTO request) {
+		
+<span class="fc" id="L49">		log.debug(&quot;BrandController.saveBrand - Start - Request:  [{}]&quot;, request);</span>
+		
+<span class="fc" id="L51">		BrandResponseDTO brandSaved = brandService.saveBrand(request);</span>
+		
+<span class="fc" id="L53">		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path(&quot;/{id}&quot;).buildAndExpand(brandSaved.getId())</span>
+<span class="fc" id="L54">				.toUri();</span>
+		
+<span class="fc" id="L56">		ResponseEntity&lt;BrandResponseDTO&gt; response = ResponseEntity.created(uri).body(brandSaved);</span>
+		
+<span class="fc" id="L58">		log.debug(&quot;UserController.saveUser - Finish - Request:  [{}], Response:  [{}]&quot;, request, response);</span>
+		
+<span class="fc" id="L60">		return response;</span>
+	}
+	
+	@PutMapping(value = &quot;/brand&quot;)
+	public ResponseEntity&lt;BrandResponseDTO&gt; updateBrand(@RequestParam Long idBrand, @Valid @RequestBody BrandRequestDTO request) {
+		
+<span class="fc" id="L66">		log.debug(&quot;BrandController.updateBrand - Start - idBrand,: [], Request: [{}]&quot;, idBrand, request);</span>
+		
+<span class="fc" id="L68">		BrandResponseDTO brandUpdated = brandService.updateBrand(idBrand, request);</span>
+		
+<span class="fc" id="L70">		ResponseEntity&lt;BrandResponseDTO&gt; response = ResponseEntity.ok(brandUpdated);</span>
+		
+<span class="fc" id="L72">		log.debug(&quot;UserController.updateBrand - Finish - id; [], Request:  [{}], Response:  [{}]&quot;, idBrand, request, response);</span>
+		
+<span class="fc" id="L74">		return response;</span>
+	}
+	
+	@DeleteMapping(value = &quot;/brand&quot;)
+	public ResponseEntity&lt;BrandResponseDTO&gt; deleteBrand(@RequestParam Long idBrand) {
+		
+<span class="fc" id="L80">		log.debug(&quot;BrandController.deleteBrand - Start - idBrand: []&quot;, idBrand);</span>
+		
+<span class="fc" id="L82">		brandService.deleteBrand(idBrand);</span>
+		
+<span class="fc" id="L84">		log.debug(&quot;UserController.deleteBrand - Finish - idBrand: []&quot;, idBrand);</span>
+		
+<span class="fc" id="L86">		return ResponseEntity.noContent().build();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>

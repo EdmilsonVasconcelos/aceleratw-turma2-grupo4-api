@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TokenService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aceleratw-turma2-grupo4-api</a> &gt; <a href="index.source.html" class="el_package">com.tw.acelera.grupo4.aceleratwturma2grupo4api.config.security</a> &gt; <span class="el_source">TokenService.java</span></div><h1>TokenService.java</h1><pre class="source lang-java linenums">package com.tw.acelera.grupo4.aceleratwturma2grupo4api.config.security;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+
+import com.tw.acelera.grupo4.aceleratwturma2grupo4api.model.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L16">@Slf4j</span>
+@Service
+<span class="fc" id="L18">public class TokenService {</span>
+	
+	@Value(&quot;${security.jwt.expiration}&quot;)
+	private String expiration;
+	
+	@Value(&quot;${security.jwt.signature-key}&quot;)
+	private String secret;
+
+	public String generateToken(Authentication authentication) {
+		
+<span class="nc" id="L28">		log.debug(&quot;TokenService.generateToken - Start - Request:  [{}]&quot;, authentication);</span>
+		
+<span class="nc" id="L30">		User userLogged = (User) authentication.getPrincipal();</span>
+		
+<span class="nc" id="L32">		Date today = new Date();</span>
+		
+<span class="nc" id="L34">		Date dateExpiration = new Date(today.getTime() + Long.parseLong(expiration));</span>
+		
+<span class="nc" id="L36">		String response = Jwts.builder()</span>
+<span class="nc" id="L37">				.setIssuer(&quot;Api of carango bom&quot;)</span>
+<span class="nc" id="L38">				.setSubject(userLogged.getId().toString())</span>
+<span class="nc" id="L39">				.setIssuedAt(today)</span>
+<span class="nc" id="L40">				.setExpiration(dateExpiration)</span>
+<span class="nc" id="L41">				.signWith(SignatureAlgorithm.HS256, secret)</span>
+<span class="nc" id="L42">				.compact();</span>
+		
+<span class="nc" id="L44">		log.debug(&quot;TokenService.generateToken - Finish - Request:  [{}], Response:  [{}]&quot;, authentication, response);</span>
+		
+<span class="nc" id="L46">		return response;</span>
+	}
+	
+	public boolean isValidToken(String token) {
+		try {
+<span class="nc" id="L51">			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);</span>
+<span class="nc" id="L52">			return true;</span>
+<span class="fc" id="L53">		} catch (Exception e) {</span>
+<span class="fc" id="L54">			return false;</span>
+		}
+	}
+
+	public Long getUserId(String token) {
+<span class="nc" id="L59">		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();</span>
+<span class="nc" id="L60">		return Long.parseLong(claims.getSubject());</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.0.201801022044</span></div></body></html>
