@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar target/
+web: java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar target/aceleratw-turma2-grupo4-api-0.0.1-SNAPSHOT.jar
