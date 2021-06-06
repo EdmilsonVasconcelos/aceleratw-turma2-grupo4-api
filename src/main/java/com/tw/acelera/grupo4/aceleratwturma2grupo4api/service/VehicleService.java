@@ -46,6 +46,8 @@ public class VehicleService {
 		
 		vehicleToSave.setBrand(brand);
 		
+		System.out.println(vehicleToSave);
+		
 		Vehicle vehicleSaved = vehicleRepository.save(vehicleToSave);
 		
 		VehicleResponseDTO response = mapper.map(vehicleSaved, VehicleResponseDTO.class);
