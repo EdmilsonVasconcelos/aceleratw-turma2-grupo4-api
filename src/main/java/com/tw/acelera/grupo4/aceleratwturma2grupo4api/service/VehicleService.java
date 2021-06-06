@@ -42,11 +42,12 @@ public class VehicleService {
 		
 		Brand brand = getBrand(request.getIdBrand());
 		
-		Vehicle vehicleToSave = mapper.map(request, Vehicle.class);
-		
-		vehicleToSave.setBrand(brand);
-		
-		System.out.println(vehicleToSave);
+		Vehicle vehicleToSave = Vehicle.builder()
+				.brand(brand)
+				.model(request.getModel())
+				.year(request.getYear())
+				.value(request.getValue())
+				.build();
 		
 		Vehicle vehicleSaved = vehicleRepository.save(vehicleToSave);
 		
