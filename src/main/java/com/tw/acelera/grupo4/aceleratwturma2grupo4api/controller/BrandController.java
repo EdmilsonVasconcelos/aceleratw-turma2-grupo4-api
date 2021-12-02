@@ -63,11 +63,11 @@ public class BrandController {
 	@Cacheable(value = "findById")
 	public ResponseEntity<BrandResponseDTO>  getBrandById(@RequestParam Long idBrand) {
 		
-		log.info("BrandController.getBrandById - Start - idBrand: []", idBrand);
+		log.info("BrandController.getBrandById - Start - idBrand: [{}]", idBrand);
 		
 		BrandResponseDTO response = brandService.getBrandById(idBrand);
 		
-		log.info("BrandController.getBrandById - Start - idBrand: [], response: []", idBrand, response);
+		log.info("BrandController.getBrandById - Start - idBrand: [{}], response: [{}]", idBrand, response);
 		
 		return ResponseEntity.ok(response);
 		
@@ -95,13 +95,13 @@ public class BrandController {
 	@CacheEvict(value = {"listBrands", "reports", "findById"}, allEntries = true)
 	public ResponseEntity<BrandResponseDTO> updateBrand(@RequestParam Long idBrand, @Valid @RequestBody BrandRequestDTO request) {
 		
-		log.info("BrandController.updateBrand - Start - idBrand,: [], Request: [{}]", idBrand, request);
+		log.info("BrandController.updateBrand - Start - idBrand,: [{}], Request: [{}]", idBrand, request);
 		
 		BrandResponseDTO brandUpdated = brandService.updateBrand(idBrand, request);
 		
 		ResponseEntity<BrandResponseDTO> response = ResponseEntity.ok(brandUpdated);
 		
-		log.info("UserController.updateBrand - Finish - id; [], Request:  [{}], Response:  [{}]", idBrand, request, response);
+		log.info("UserController.updateBrand - Finish - id; [{}], Request:  [{}], Response:  [{}]", idBrand, request, response);
 		
 		return response;
 	}
@@ -110,11 +110,11 @@ public class BrandController {
 	@CacheEvict(value = {"listBrands", "reports", "findById"}, allEntries = true)
 	public ResponseEntity<BrandResponseDTO> deleteBrand(@RequestParam Long idBrand) {
 		
-		log.info("BrandController.deleteBrand - Start - idBrand: []", idBrand);
+		log.info("BrandController.deleteBrand - Start - idBrand: [{}]", idBrand);
 		
 		brandService.deleteBrand(idBrand);
 		
-		log.info("BrandController.deleteBrand - Finish - idBrand: []", idBrand);
+		log.info("BrandController.deleteBrand - Finish - idBrand: [{}]", idBrand);
 		
 		return ResponseEntity.noContent().build();
 	}

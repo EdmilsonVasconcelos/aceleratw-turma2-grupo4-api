@@ -95,7 +95,7 @@ public class VehicleService {
 			response.add(vehicleDTO);
 		});
 		
-		log.info("VehicleService.getAllVehicles - Finish");
+		log.info("VehicleService.getAllVehicles - Finish - Response: [{}]", response);
 		
 		return response;
 	}
@@ -131,14 +131,14 @@ public class VehicleService {
 
 	public VehicleResponseDTO getVehicleById(Long idVehicle) {
 		
-		log.info("VehicleService.getVehicleById - Start - idVehicle: []", idVehicle);
+		log.info("VehicleService.getVehicleById - Start - idVehicle: [{}]", idVehicle);
 		
 		Vehicle vehicle = vehicleRepository.findById(idVehicle)
 				.orElseThrow(() -> new VehicleNotExistException(String.format(VEHICLE_WITH_ID_NOT_EXISTS, idVehicle)));
 		
 		VehicleResponseDTO response = mapper.map(vehicle, VehicleResponseDTO.class);
 		
-		log.info("VehicleService.getVehicleById - Start - idVehicle: [], response: []", idVehicle, response);
+		log.info("VehicleService.getVehicleById - Start - idVehicle: [{}], response: [{}]", idVehicle, response);
 		
 		return response;
 	}

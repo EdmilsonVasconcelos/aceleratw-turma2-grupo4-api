@@ -52,7 +52,7 @@ public class UserController {
 	@CacheEvict(value = "listUsers", allEntries = true)
 	public ResponseEntity<UserSavedDTO> udpdatePassword(@Valid @RequestBody ChangePasswordRequestDTO request) {
 		
-		log.info("UserController.udpdatePassword - Start - Request");
+		log.info("UserController.udpdatePassword - Start - Request: [{}]", request);
 		
 		UserSavedDTO userSaved = userService.changePassword(request);
 		
@@ -85,11 +85,11 @@ public class UserController {
 	@CacheEvict(value = "listUsers", allEntries = true)
 	public ResponseEntity<UserSavedDTO> deleteUser(@RequestParam Long idUser) {
 		
-		log.info("UserController.deleteBrand - Start - idUser: []", idUser);
+		log.info("UserController.deleteBrand - Start - idUser: [{}]", idUser);
 		
 		userService.deleteUser(idUser);
 		
-		log.info("UserController.deleteBrand - Finish - idUser: []", idUser);
+		log.info("UserController.deleteBrand - Finish - idUser: [{}]", idUser);
 		
 		return ResponseEntity.noContent().build();
 	} 

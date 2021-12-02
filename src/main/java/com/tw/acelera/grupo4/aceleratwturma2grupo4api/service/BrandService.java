@@ -52,21 +52,21 @@ public class BrandService {
 			response.add(brandResponseDTO);
 		});
 		
-		log.info("BrandService.saveBrand - Finish");
+		log.info("BrandService.saveBrand - Finish - Response: [{}]", response);
 		
 		return response;
 	}
 	
 	public BrandResponseDTO getBrandById(Long idBrand) {
 		
-		log.info("BrandService.getBrandById - Start - idBrand: []", idBrand);
+		log.info("BrandService.getBrandById - Start - idBrand: [{}]", idBrand);
 		
 		Brand brand = brandRepository.findById(idBrand)
 				.orElseThrow(() -> new BrandNotExistsException(String.format(BRAND_WITH_ID_NOT_EXISTS, idBrand)));
 		
 		BrandResponseDTO response = mapper.map(brand, BrandResponseDTO.class);
 		
-		log.info("BrandService.getBrandById - Start - idBrand: [], response: []", idBrand, response);
+		log.info("BrandService.getBrandById - Start - idBrand: [{}], response: [{}]", idBrand, response);
 		
 		return response;
 		
@@ -92,7 +92,7 @@ public class BrandService {
 	
 	public BrandResponseDTO updateBrand(Long idBrand, BrandRequestDTO request) {
 		
-		log.info("BrandService.updateBrand - Start - idBrand: [], Request: [{}]", idBrand, request);
+		log.info("BrandService.updateBrand - Start - idBrand: [{}], Request: [{}]", idBrand, request);
 		
 		checkIfExistBrandById(idBrand);
 		
@@ -106,7 +106,7 @@ public class BrandService {
 		
 		BrandResponseDTO response = mapper.map(brandSaved, BrandResponseDTO.class);
 		
-		log.info("BrandService.updateBrand - Finish - idBrand: [], Request: [{}]", idBrand, request);
+		log.info("BrandService.updateBrand - Finish - idBrand: [{}], Request: [{}]", idBrand, request);
 		
 		return response;
 	}
@@ -131,7 +131,7 @@ public class BrandService {
 		
 		List<BrandReporterResponseDTO> response = getBrandReporterResponse(brands);
 		
-		log.info("BrandService.getInformationsByBrand - Finish");
+		log.info("BrandService.getInformationsByBrand - Finish - Response: [{}]", response);
 		
 		return response;
 	}

@@ -80,7 +80,7 @@ public class UserService {
 	
 	public UserSavedDTO changePassword(ChangePasswordRequestDTO request) {
 		
-		log.info("UserService.updateUser - Start - Request");
+		log.info("UserService.changePassword - Start - Request: [{}]", request);
 		
 		String userLogged = getEmailUserLogged();
 		
@@ -92,7 +92,7 @@ public class UserService {
 		
 		UserSavedDTO response = mapper.map(userSaved, UserSavedDTO.class);
 		
-		log.info("UserService.updateUser - Finish - Request:  [{}], Response:  [{}]", response);
+		log.info("UserService.changePassword - Finish - Request:  [{}], Response:  [{}]", request, response);
 		
 		return response;
 			
@@ -138,7 +138,7 @@ public class UserService {
 			
 		}
 		
-		log.info("UserService.checkExistUser - Finish:  [{}]", email);
+		log.info("UserService.checkExistUser - Reponse:  [{}]", email);
 		
 		
 	}
