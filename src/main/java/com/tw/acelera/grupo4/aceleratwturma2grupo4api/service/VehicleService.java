@@ -38,7 +38,7 @@ public class VehicleService {
 	
 	public VehicleResponseDTO saveVehicle(VehicleRequestDTO request) {
 		
-		log.debug("VehicleService.saveVehicle - Start - idBrand: [{}], Request: [{}]", request);
+		log.info("VehicleService.saveVehicle - Start - idBrand: [{}], Request: [{}]", request);
 		
 		Brand brand = getBrand(request.getIdBrand());
 		
@@ -53,7 +53,7 @@ public class VehicleService {
 		
 		VehicleResponseDTO response = mapper.map(vehicleSaved, VehicleResponseDTO.class);
 		
-		log.debug("VehicleService.saveVehicle - Finish - idBrand: [{}], Request: [{}], response: [{}]", request, response);
+		log.info("VehicleService.saveVehicle - Finish - idBrand: [{}], Request: [{}], response: [{}]", request, response);
 		
 		return response;
 		
@@ -61,7 +61,7 @@ public class VehicleService {
 	
 	public VehicleResponseDTO updateVehicle(Long idVehicle, VehicleRequestPutDTO request) {
 		
-		log.debug("VehicleService.updateVehicle - Start - idBrand: [{}], idVehicle: [{}], Request: [{}]", request);
+		log.info("VehicleService.updateVehicle - Start - idBrand: [{}], idVehicle: [{}], Request: [{}]", request);
 			
 		getVehicle(idVehicle);
 		
@@ -77,14 +77,14 @@ public class VehicleService {
 		
 		VehicleResponseDTO response = mapper.map(vehicleSaved, VehicleResponseDTO.class);
 		
-		log.debug("VehicleService.updateVehicle - Start - idBrand: [{}], idVehicle: [{}], Request: [{}], Response: [{}]", request, response);
+		log.info("VehicleService.updateVehicle - Start - idBrand: [{}], idVehicle: [{}], Request: [{}], Response: [{}]", request, response);
 		
 		return response;
 	}
 
 	public List<VehicleResponseDTO> getAllVehicles() {
 		
-		log.debug("VehicleService.getAllVehicles - Start");
+		log.info("VehicleService.getAllVehicles - Start");
 			
 		List<Vehicle> vehicles = vehicleRepository.findAllWithBrand();
 		
@@ -95,26 +95,26 @@ public class VehicleService {
 			response.add(vehicleDTO);
 		});
 		
-		log.debug("VehicleService.getAllVehicles - Finish");
+		log.info("VehicleService.getAllVehicles - Finish");
 		
 		return response;
 	}
 
 	public void deleteVehicle(Long idVehicle) {
 		
-		log.debug("VehicleService.deleteVehicle - Start - idVehicle: [{}]", idVehicle);
+		log.info("VehicleService.deleteVehicle - Start - idVehicle: [{}]", idVehicle);
 		
 		getVehicle(idVehicle);
 		
 		vehicleRepository.deleteById(idVehicle);
 		
-		log.debug("VehicleService.deleteVehicle - Finish - idVehicle: [{}]", idVehicle);
+		log.info("VehicleService.deleteVehicle - Finish - idVehicle: [{}]", idVehicle);
 		
 	}
 	
 	private Vehicle getVehicle(Long idVehicle) {
 		
-		log.debug("VehicleService.getVehicle - Start - idVehicle: [{}]", idVehicle);
+		log.info("VehicleService.getVehicle - Start - idVehicle: [{}]", idVehicle);
 		
 		return vehicleRepository.findById(idVehicle)
 				.orElseThrow(() -> new VehicleNotExistException(String.format(VEHICLE_WITH_ID_NOT_EXISTS, idVehicle)));
@@ -122,7 +122,7 @@ public class VehicleService {
 	
 	private Brand getBrand(Long idBrand) {
 		
-		log.debug("VehicleService.getBrand - Start - idBrand: [{}]", idBrand);
+		log.info("VehicleService.getBrand - Start - idBrand: [{}]", idBrand);
 		
 		return brandRepository.findById(idBrand)
 				.orElseThrow(() -> new BrandNotExistsException(String.format(BRAND_WITH_ID_NOT_EXISTS, idBrand)));
@@ -131,14 +131,14 @@ public class VehicleService {
 
 	public VehicleResponseDTO getVehicleById(Long idVehicle) {
 		
-		log.debug("VehicleService.getVehicleById - Start - idVehicle: []", idVehicle);
+		log.info("VehicleService.getVehicleById - Start - idVehicle: []", idVehicle);
 		
 		Vehicle vehicle = vehicleRepository.findById(idVehicle)
 				.orElseThrow(() -> new VehicleNotExistException(String.format(VEHICLE_WITH_ID_NOT_EXISTS, idVehicle)));
 		
 		VehicleResponseDTO response = mapper.map(vehicle, VehicleResponseDTO.class);
 		
-		log.debug("VehicleService.getVehicleById - Start - idVehicle: [], response: []", idVehicle, response);
+		log.info("VehicleService.getVehicleById - Start - idVehicle: [], response: []", idVehicle, response);
 		
 		return response;
 	}

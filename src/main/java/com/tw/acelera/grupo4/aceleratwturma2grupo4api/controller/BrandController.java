@@ -38,11 +38,11 @@ public class BrandController {
 	@Cacheable(value = "listBrands")
 	public ResponseEntity<List<BrandResponseDTO>> getBrands() {
 		
-		log.debug("BrandController.getBrands - Start");
+		log.info("BrandController.getBrands - Start");
 		
 		List<BrandResponseDTO> response = brandService.getAllBrands();
 		
-		log.debug("BrandController.getBrands - Finish, Response:  [{}]", response);
+		log.info("BrandController.getBrands - Finish, Response:  [{}]", response);
 		
 		return ResponseEntity.ok(response);
 	}
@@ -50,11 +50,11 @@ public class BrandController {
 	@GetMapping(value = "/report")
 	public ResponseEntity<List<BrandReporterResponseDTO>> getInformationsByBrand() {
 		
-		log.debug("BrandController.getInformationsByBrand - Start");
+		log.info("BrandController.getInformationsByBrand - Start");
 		
 		List<BrandReporterResponseDTO> response = brandService.getInformationsByBrand();
 		
-		log.debug("BrandController.getInformationsByBrand - Finish, Response:  [{}]", response);
+		log.info("BrandController.getInformationsByBrand - Finish, Response:  [{}]", response);
 		
 		return ResponseEntity.ok(response);
 	}
@@ -63,11 +63,11 @@ public class BrandController {
 	@Cacheable(value = "findById")
 	public ResponseEntity<BrandResponseDTO>  getBrandById(@RequestParam Long idBrand) {
 		
-		log.debug("BrandController.getBrandById - Start - idBrand: []", idBrand);
+		log.info("BrandController.getBrandById - Start - idBrand: []", idBrand);
 		
 		BrandResponseDTO response = brandService.getBrandById(idBrand);
 		
-		log.debug("BrandController.getBrandById - Start - idBrand: [], response: []", idBrand, response);
+		log.info("BrandController.getBrandById - Start - idBrand: [], response: []", idBrand, response);
 		
 		return ResponseEntity.ok(response);
 		
@@ -77,7 +77,7 @@ public class BrandController {
 	@CacheEvict(value = {"listBrands", "reports", "findById"}, allEntries = true)
 	public ResponseEntity<BrandResponseDTO> saveBrand(@Valid @RequestBody BrandRequestDTO request) {
 		
-		log.debug("BrandController.saveBrand - Start - Request:  [{}]", request);
+		log.info("BrandController.saveBrand - Start - Request:  [{}]", request);
 		
 		BrandResponseDTO brandSaved = brandService.saveBrand(request);
 		
@@ -86,7 +86,7 @@ public class BrandController {
 		
 		ResponseEntity<BrandResponseDTO> response = ResponseEntity.created(uri).body(brandSaved);
 		
-		log.debug("BrandController.saveUser - Finish - Request:  [{}], Response:  [{}]", request, response);
+		log.info("BrandController.saveUser - Finish - Request:  [{}], Response:  [{}]", request, response);
 		
 		return response;
 	}
@@ -95,13 +95,13 @@ public class BrandController {
 	@CacheEvict(value = {"listBrands", "reports", "findById"}, allEntries = true)
 	public ResponseEntity<BrandResponseDTO> updateBrand(@RequestParam Long idBrand, @Valid @RequestBody BrandRequestDTO request) {
 		
-		log.debug("BrandController.updateBrand - Start - idBrand,: [], Request: [{}]", idBrand, request);
+		log.info("BrandController.updateBrand - Start - idBrand,: [], Request: [{}]", idBrand, request);
 		
 		BrandResponseDTO brandUpdated = brandService.updateBrand(idBrand, request);
 		
 		ResponseEntity<BrandResponseDTO> response = ResponseEntity.ok(brandUpdated);
 		
-		log.debug("UserController.updateBrand - Finish - id; [], Request:  [{}], Response:  [{}]", idBrand, request, response);
+		log.info("UserController.updateBrand - Finish - id; [], Request:  [{}], Response:  [{}]", idBrand, request, response);
 		
 		return response;
 	}
@@ -110,11 +110,11 @@ public class BrandController {
 	@CacheEvict(value = {"listBrands", "reports", "findById"}, allEntries = true)
 	public ResponseEntity<BrandResponseDTO> deleteBrand(@RequestParam Long idBrand) {
 		
-		log.debug("BrandController.deleteBrand - Start - idBrand: []", idBrand);
+		log.info("BrandController.deleteBrand - Start - idBrand: []", idBrand);
 		
 		brandService.deleteBrand(idBrand);
 		
-		log.debug("BrandController.deleteBrand - Finish - idBrand: []", idBrand);
+		log.info("BrandController.deleteBrand - Finish - idBrand: []", idBrand);
 		
 		return ResponseEntity.noContent().build();
 	}

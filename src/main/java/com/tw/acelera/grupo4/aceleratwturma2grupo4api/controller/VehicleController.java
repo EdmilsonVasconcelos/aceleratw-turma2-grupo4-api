@@ -38,11 +38,11 @@ public class VehicleController {
 	@Cacheable(value = "listVehicles")
 	public ResponseEntity<List<VehicleResponseDTO>> getVehicles() {
 		
-		log.debug("VehicleController.getVehicles - Start");
+		log.info("VehicleController.getVehicles - Start");
 		
 		List<VehicleResponseDTO> response = vehicleService.getAllVehicles();
 		
-		log.debug("VehicleController.getVehicles - Start");
+		log.info("VehicleController.getVehicles - Start");
 		
 		return ResponseEntity.ok(response);
 	}
@@ -51,7 +51,7 @@ public class VehicleController {
 	@CacheEvict(value = "listVehicles", allEntries = true)
 	public ResponseEntity<VehicleResponseDTO> saveVehicle(@Valid @RequestBody VehicleRequestDTO request) {
 		
-		log.debug("VehicleController.saveVehicle - Start - idBrand: [], Request: [{}]", request);
+		log.info("VehicleController.saveVehicle - Start - idBrand: [], Request: [{}]", request);
 		
 		VehicleResponseDTO vehicleSaved = vehicleService.saveVehicle(request);
 		
@@ -60,7 +60,7 @@ public class VehicleController {
 		
 		ResponseEntity<VehicleResponseDTO> response = ResponseEntity.created(uri).body(vehicleSaved);
 		
-		log.debug("VehicleController.saveVehicle - Finish - idBrand: [], Request: [{}]", request);
+		log.info("VehicleController.saveVehicle - Finish - idBrand: [], Request: [{}]", request);
 		
 		return response;
 		
@@ -70,13 +70,13 @@ public class VehicleController {
 	@CacheEvict(value = "listVehicles", allEntries = true)
 	public ResponseEntity<VehicleResponseDTO> updateVehicle(@RequestParam Long idVehicle, @Valid @RequestBody VehicleRequestPutDTO request) {
 		
-		log.debug("VehicleController.updateVehicle - Start - idBrand: [], idVehicle: [], Request: [{}]", idVehicle, request);
+		log.info("VehicleController.updateVehicle - Start - idBrand: [], idVehicle: [], Request: [{}]", idVehicle, request);
 		
 		VehicleResponseDTO vehicleUpdated = vehicleService.updateVehicle(idVehicle, request);
 		
 		ResponseEntity<VehicleResponseDTO> response = ResponseEntity.ok(vehicleUpdated);
 		
-		log.debug("VehicleController.updateVehicle - Start - idBrand: [], idVehicle: [], Request: [{}], Response: [{}]", idVehicle, request, response);
+		log.info("VehicleController.updateVehicle - Start - idBrand: [], idVehicle: [], Request: [{}], Response: [{}]", idVehicle, request, response);
 		
 		return response;
 	}
@@ -85,11 +85,11 @@ public class VehicleController {
 	@CacheEvict(value = "listVehicles", allEntries = true)
 	public ResponseEntity<VehicleResponseDTO> deleteVehicle(@RequestParam Long idVehicle) {
 		
-		log.debug("VehicleController.deleteVehicle - Start - idVehicle: []", idVehicle);
+		log.info("VehicleController.deleteVehicle - Start - idVehicle: []", idVehicle);
 		
 		vehicleService.deleteVehicle(idVehicle);
 		
-		log.debug("VehicleController.deleteVehicle - Finish - idVehicle: []", idVehicle);
+		log.info("VehicleController.deleteVehicle - Finish - idVehicle: []", idVehicle);
 		
 		return ResponseEntity.noContent().build();
 	}
@@ -98,11 +98,11 @@ public class VehicleController {
 	@Cacheable(value = "findById")
 	public ResponseEntity<VehicleResponseDTO> getVehicleById(@RequestParam Long idVehicle) {
 		
-		log.debug("VehicleController.getVehicleById - Start - idVehicle: []", idVehicle);
+		log.info("VehicleController.getVehicleById - Start - idVehicle: []", idVehicle);
 		
 		VehicleResponseDTO response = vehicleService.getVehicleById(idVehicle);
 		
-		log.debug("VehicleController.getVehicleById - Start - idVehicle: [], response: []", idVehicle, response);
+		log.info("VehicleController.getVehicleById - Start - idVehicle: [], response: []", idVehicle, response);
 		
 		return ResponseEntity.ok(response);
 		

@@ -38,11 +38,11 @@ public class UserController {
 	@Cacheable(value = "listUsers")
 	public ResponseEntity<List<UserSavedDTO>> getAllUsers() {
 		
-		log.debug("UserController.getAllUsers - Start ");
+		log.info("UserController.getAllUsers - Start ");
 		
 		List<UserSavedDTO> response = userService.getAllUsers();
 		
-		log.debug("UserController.getAllUsers - Finish - Response:  [{}]", response);
+		log.info("UserController.getAllUsers - Finish - Response:  [{}]", response);
 		
 		return ResponseEntity.ok(response);
 		
@@ -52,13 +52,13 @@ public class UserController {
 	@CacheEvict(value = "listUsers", allEntries = true)
 	public ResponseEntity<UserSavedDTO> udpdatePassword(@Valid @RequestBody ChangePasswordRequestDTO request) {
 		
-		log.debug("UserController.udpdatePassword - Start - Request");
+		log.info("UserController.udpdatePassword - Start - Request");
 		
 		UserSavedDTO userSaved = userService.changePassword(request);
 		
 		ResponseEntity<UserSavedDTO> response = ResponseEntity.ok(userSaved);
 		
-		log.debug("UserController.udpdatePassword - Finish -  Request:  [{}], Response:  [{}]", response);
+		log.info("UserController.udpdatePassword - Finish -  Request:  [{}], Response:  [{}]", response);
 		
 		return response;
 	}
@@ -67,7 +67,7 @@ public class UserController {
 	@CacheEvict(value = "listUsers", allEntries = true)
 	public ResponseEntity<UserSavedDTO> saveUser(@Valid @RequestBody SaveUserDTO request) {
 		
-		log.debug("UserController.saveUser - Start - Request:  [{}]", request);
+		log.info("UserController.saveUser - Start - Request:  [{}]", request);
 		
 		UserSavedDTO userSaved = userService.saveUser(request);
 		
@@ -76,7 +76,7 @@ public class UserController {
 		
 		ResponseEntity<UserSavedDTO> response = ResponseEntity.created(uri).body(userSaved);
 		
-		log.debug("UserController.saveUser - Finish -  Request:  [{}], Response:  [{}]", request, response);
+		log.info("UserController.saveUser - Finish -  Request:  [{}], Response:  [{}]", request, response);
 		
 		return response;
 	}
@@ -85,11 +85,11 @@ public class UserController {
 	@CacheEvict(value = "listUsers", allEntries = true)
 	public ResponseEntity<UserSavedDTO> deleteUser(@RequestParam Long idUser) {
 		
-		log.debug("UserController.deleteBrand - Start - idUser: []", idUser);
+		log.info("UserController.deleteBrand - Start - idUser: []", idUser);
 		
 		userService.deleteUser(idUser);
 		
-		log.debug("UserController.deleteBrand - Finish - idUser: []", idUser);
+		log.info("UserController.deleteBrand - Finish - idUser: []", idUser);
 		
 		return ResponseEntity.noContent().build();
 	} 

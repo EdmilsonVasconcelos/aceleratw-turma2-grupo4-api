@@ -39,7 +39,7 @@ public class UserService {
 	
 	public List<UserSavedDTO> getAllUsers() {
 		
-		log.debug("UserService.getAllUsers - Start - Request:  [{}]");
+		log.info("UserService.getAllUsers - Start - Request:  [{}]");
 		
 		List<User> users = userRepository.findAll();
 		
@@ -52,7 +52,7 @@ public class UserService {
 		});
 		
 		
-		log.debug("UserService.getAllUsers - Finish - Response:  [{}]", response);
+		log.info("UserService.getAllUsers - Finish - Response:  [{}]", response);
 		
 		return response;
 		
@@ -60,7 +60,7 @@ public class UserService {
 	
 	public UserSavedDTO saveUser(SaveUserDTO request) {
 		
-		log.debug("UserService.saveUser - Start - Request:  [{}]", request);
+		log.info("UserService.saveUser - Start - Request:  [{}]", request);
 		
 		checkExistUser(request.getEmail());
 		
@@ -72,7 +72,7 @@ public class UserService {
 		
 		UserSavedDTO response = mapper.map(userSaved, UserSavedDTO.class);
 		
-		log.debug("UserService.saveUser - Finish - Request:  [{}], Response:  [{}]", request, response);
+		log.info("UserService.saveUser - Finish - Request:  [{}], Response:  [{}]", request, response);
 		
 		return response;
 		
@@ -80,7 +80,7 @@ public class UserService {
 	
 	public UserSavedDTO changePassword(ChangePasswordRequestDTO request) {
 		
-		log.debug("UserService.updateUser - Start - Request");
+		log.info("UserService.updateUser - Start - Request");
 		
 		String userLogged = getEmailUserLogged();
 		
@@ -92,7 +92,7 @@ public class UserService {
 		
 		UserSavedDTO response = mapper.map(userSaved, UserSavedDTO.class);
 		
-		log.debug("UserService.updateUser - Finish - Request:  [{}], Response:  [{}]", response);
+		log.info("UserService.updateUser - Finish - Request:  [{}], Response:  [{}]", response);
 		
 		return response;
 			
@@ -112,13 +112,13 @@ public class UserService {
 	
 	public void deleteUser(Long idUser) {
 		
-		log.debug("UserService.deleteUser - Start - idUser:  [{}]", idUser);
+		log.info("UserService.deleteUser - Start - idUser:  [{}]", idUser);
 		
 		checkExistUser(idUser);
 		
 		userRepository.deleteById(idUser);
 		
-		log.debug("UserService.deleteUser - Finish - idUser:  [{}]", idUser);
+		log.info("UserService.deleteUser - Finish - idUser:  [{}]", idUser);
 		
 	}
 	
@@ -128,7 +128,7 @@ public class UserService {
 
 	private void checkExistUser(String email) {
 		
-		log.debug("UserService.checkExistUser - Start - Request:  [{}]", email);
+		log.info("UserService.checkExistUser - Start - Request:  [{}]", email);
 		
 		Optional<User> user = userRepository.findByEmail(email);
 		
@@ -138,14 +138,14 @@ public class UserService {
 			
 		}
 		
-		log.debug("UserService.checkExistUser - Finish:  [{}]", email);
+		log.info("UserService.checkExistUser - Finish:  [{}]", email);
 		
 		
 	}
 	
 	private void checkExistUser(Long idUser) {
 		
-		log.debug("UserService.checkExistUser - Start - idUser: [{}]", idUser);
+		log.info("UserService.checkExistUser - Start - idUser: [{}]", idUser);
 		
 		Optional<User> user = userRepository.findById(idUser);
 		
@@ -155,8 +155,7 @@ public class UserService {
 			
 		}
 		
-		log.debug("UserService.checkExistUser - Finish: idUser: [{}]", idUser);
-		
-		
+		log.info("UserService.checkExistUser - Finish: idUser: [{}]", idUser);
+
 	}
 }

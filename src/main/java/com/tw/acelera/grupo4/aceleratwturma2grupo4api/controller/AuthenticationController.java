@@ -32,7 +32,7 @@ public class AuthenticationController {
 	@PostMapping
 	public ResponseEntity<TokenDTO> authenticate(@Valid @RequestBody LoginUserDTO request) {
 		
-		log.debug("AuthenticationController.authenticate - Start - Request:  [{}]", request);
+		log.info("AuthenticationController.authenticate - Start - Request:  [{}]", request);
 		
 		UsernamePasswordAuthenticationToken dataLogin = request.converter();
 		

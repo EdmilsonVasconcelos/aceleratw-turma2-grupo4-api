@@ -41,7 +41,7 @@ public class BrandService {
 	
 	public List<BrandResponseDTO> getAllBrands() {
 		
-		log.debug("BrandService.saveBrand - Start");
+		log.info("BrandService.saveBrand - Start");
 		
 		List<Brand> brands = brandRepository.findAll();
 		
@@ -52,21 +52,21 @@ public class BrandService {
 			response.add(brandResponseDTO);
 		});
 		
-		log.debug("BrandService.saveBrand - Finish");
+		log.info("BrandService.saveBrand - Finish");
 		
 		return response;
 	}
 	
 	public BrandResponseDTO getBrandById(Long idBrand) {
 		
-		log.debug("BrandService.getBrandById - Start - idBrand: []", idBrand);
+		log.info("BrandService.getBrandById - Start - idBrand: []", idBrand);
 		
 		Brand brand = brandRepository.findById(idBrand)
 				.orElseThrow(() -> new BrandNotExistsException(String.format(BRAND_WITH_ID_NOT_EXISTS, idBrand)));
 		
 		BrandResponseDTO response = mapper.map(brand, BrandResponseDTO.class);
 		
-		log.debug("BrandService.getBrandById - Start - idBrand: [], response: []", idBrand, response);
+		log.info("BrandService.getBrandById - Start - idBrand: [], response: []", idBrand, response);
 		
 		return response;
 		
@@ -74,7 +74,7 @@ public class BrandService {
 	
 	public BrandResponseDTO saveBrand(BrandRequestDTO request) {
 		
-		log.debug("BrandService.saveBrand - Start - Request:  [{}]", request);
+		log.info("BrandService.saveBrand - Start - Request:  [{}]", request);
 		
 		checkIfExistBrandByName(request.getName());
 		
@@ -84,7 +84,7 @@ public class BrandService {
 		
 		BrandResponseDTO response = mapper.map(brandSaved, BrandResponseDTO.class);
 		
-		log.debug("BrandService.saveBrand - Finish - Request:  [{}], Response:  [{}]", request, response);
+		log.info("BrandService.saveBrand - Finish - Request:  [{}], Response:  [{}]", request, response);
 		
 		return response;
 		
@@ -92,7 +92,7 @@ public class BrandService {
 	
 	public BrandResponseDTO updateBrand(Long idBrand, BrandRequestDTO request) {
 		
-		log.debug("BrandService.updateBrand - Start - idBrand: [], Request: [{}]", idBrand, request);
+		log.info("BrandService.updateBrand - Start - idBrand: [], Request: [{}]", idBrand, request);
 		
 		checkIfExistBrandById(idBrand);
 		
@@ -106,39 +106,39 @@ public class BrandService {
 		
 		BrandResponseDTO response = mapper.map(brandSaved, BrandResponseDTO.class);
 		
-		log.debug("BrandService.updateBrand - Finish - idBrand: [], Request: [{}]", idBrand, request);
+		log.info("BrandService.updateBrand - Finish - idBrand: [], Request: [{}]", idBrand, request);
 		
 		return response;
 	}
 
 	public void deleteBrand(Long idBrand) {
 		
-		log.debug("BrandService.deleteBrand - Start - idBrand:  [{}]", idBrand);
+		log.info("BrandService.deleteBrand - Start - idBrand:  [{}]", idBrand);
 		
 		checkIfExistBrandById(idBrand);
 		
 		brandRepository.deleteById(idBrand);
 
-		log.debug("BrandService.deleteBrand - Finish - idBrand:  [{}]", idBrand);
+		log.info("BrandService.deleteBrand - Finish - idBrand:  [{}]", idBrand);
 	}
 	
 
 	public List<BrandReporterResponseDTO> getInformationsByBrand() {
 		
-		log.debug("BrandService.getInformationsByBrand - Start");
+		log.info("BrandService.getInformationsByBrand - Start");
 		
 		List<Brand> brands = brandRepository.findAll();
 		
 		List<BrandReporterResponseDTO> response = getBrandReporterResponse(brands);
 		
-		log.debug("BrandService.getInformationsByBrand - Finish");
+		log.info("BrandService.getInformationsByBrand - Finish");
 		
 		return response;
 	}
 	
 	private List<BrandReporterResponseDTO> getBrandReporterResponse(List<Brand> brands) {
 		
-		log.debug("BrandService.getBrandReporterResponse - Start - Request: [{}]", brands);
+		log.info("BrandService.getBrandReporterResponse - Start - Request: [{}]", brands);
 		
 		BigDecimal totalValue = new BigDecimal(0);
 		
@@ -185,7 +185,7 @@ public class BrandService {
 			
 		}
 		
-		log.debug("BrandService.getBrandReporterResponse - Finish - Request: [{}], Response: [{}]", brands, response);
+		log.info("BrandService.getBrandReporterResponse - Finish - Request: [{}], Response: [{}]", brands, response);
 		
 		return response;
 		
@@ -193,7 +193,7 @@ public class BrandService {
 	
 	private void checkIfExistBrandById(Long idBrand) {
 		
-		log.debug("BrandService.checkIfExistBrandById - Start - idBrand: [{}]", idBrand);
+		log.info("BrandService.checkIfExistBrandById - Start - idBrand: [{}]", idBrand);
 		
 		Optional<Brand> brand = brandRepository.findById(idBrand);
 		
@@ -203,13 +203,13 @@ public class BrandService {
 			
 		}
 		
-		log.debug("BrandService.checkIfExistBrandById - Finish: idBrand: [{}]", idBrand);
+		log.info("BrandService.checkIfExistBrandById - Finish: idBrand: [{}]", idBrand);
 		
 	}
 	
 	private void checkIfExistBrandByName(String name) {
 		
-		log.debug("BrandService.checkIfExistBrandByName - Start - Brand:  [{}]", name);
+		log.info("BrandService.checkIfExistBrandByName - Start - Brand:  [{}]", name);
 		
 		Optional<Brand> brand = brandRepository.findByName(name);
 		
@@ -219,7 +219,7 @@ public class BrandService {
 			
 		}
 		
-		log.debug("BrandService.checkIfExistBrandByName - Finish:  [{}]", name);
+		log.info("BrandService.checkIfExistBrandByName - Finish:  [{}]", name);
 		
 	}
 
